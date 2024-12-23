@@ -1,0 +1,117 @@
+---
+title: "Os teoremas da incompletude de Gödel"
+author: "Lógica em ação"
+institute: "Universidade Federal Fluminense"
+date: today
+date-format: short
+lang: pt-br
+format:
+    revealjs: 
+        theme: blood
+        toc: true
+        smaller: true
+        transition: slide
+        transition-speed: fast
+    pdf: default
+---
+
+
+## O que são os teoremas da incompletude?
+
+Escritos no *Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme*, os teoremas da incompletude são dois resultados fundamentais da lógica matemática que estabelecem limitações a quase todos os sistemas axiomáticos. Para entendê-los, é necessário compreender a relação entre os símbolos e seus significados.
+
+# Codificando!
+## Número de Gödel
+
+Buscando uma relação entre os símbolos e seus significados, Gödel teve a brilhante ideia de codificar os símbolos separadamente. Dada uma fórmula, ele era capaz de gerar um código único para ela usando o seguinte método. Considere a fórmula:
+
+$$
+\neg (\text{s}0 = 0)
+$$
+
+Essa fórmula expressa que o sucessor de 0 é diferente de zero, o que sabemos ser uma verdade.
+
+## Como codificar?
+
+Para codificar, Gödel fez uma tabela semelhante a esta:
+
+| Símbolos Constantes  | Número de Gödel |
+|----------------------|-----------------|
+| $\neg$               | 1               |
+| $\land$              | 2               |
+| $\lor$               | 3               |
+| $\to$                | 4               |
+| $\exists$            | 5               |
+| $\forall$            | 6               |
+| $=$                  | 7               |
+| $0$                  | 8               |
+| $s$                  | 9               |
+| (                    | 10              |
+| )                    | 11              |
+
+## Fatores primos
+
+Definidos os números de Gödel para cada símbolo, Gödel podia codificar as expressões. Para garantir que fossem únicas, ele usou os fatores primos. Lembre-se de que todos os números podem ser escritos de forma única como a multiplicação de fatores primos. Para codificar, utilizamos os $n$ primeiros primos, onde $n$ é a quantidade de símbolos na fórmula, e elevamos cada primo ao número de Gödel do seu respectivo símbolo. Considere a fórmula:
+
+$$
+\neg (\text{s}0 = 0)
+$$
+
+Codificando a fórmula acima:
+
+$$
+2^1 \cdot 3^{10} \cdot 5^9 \cdot 7^8 \cdot 11^7 \cdot 13^8 \cdot 17^{11} = M
+$$
+
+Onde $M$ representa o número de Gödel da expressão $\neg (\text{s}0 = 0)$. Com esse método, fica claro que podemos codificar qualquer fórmula da lógica de forma única. Observe:
+
+## Utilizando o Maxima
+![Fatoração de M no Maxima](imgs/maxima_number.png)
+
+## Fórmulas compostas
+
+Para fórmulas compostas, utilizamos o mesmo processo. Assim, ficaremos com:
+
+| Prova                        | ng das sentenças |   ng da prova    |
+|------------------------------|------------------|------------------|
+| $\exists x_1(x_1 = s_{x_2})$ | $n$              | $2^n \times 3^m$ |
+| $\exists x_1(x_1 = s_0)$     | $m$              |                  |
+
+# Teoremas
+
+## Acordos
+
+Quando uma teoria é completa? Uma teoria é completa se, no sistema definido, toda afirmação pode ser provada ou refutada.
+
+Quando um sistema é inconsistente? Um sistema é inconsistente se nele é possível provar uma afirmação e também sua negação.
+
+Seguindo as orientações do *Principia Mathematica*, usaremos um sistema completo e consistente.
+
+
+## Primeiro teorema da incompletude
+
+"Qualquer sistema formal consistente $S$ dentro do qual uma certa quantidade de Aritmética elementar possa ser realizada é incompleto."
+
+Para a primeira "prova", buscando relacionar a metaritimética e os símbolos, Gödel construiu a propriedade $\text{Dem}(x,y)$: a sequência de fórmulas com o número de Gödel $x$ é uma prova para a fórmula $y$. Com essa relação, se tivermos $x = 2^{n_1} \cdot 3^{n_2} \cdot 5^{n_3} \cdot 7^{n_4} \cdot 11^{n_5}$, podemos dizer que $x$ e $y$ são números de Gödel, e $n_i$ são os números associados aos símbolos.
+
+Para o paradoxo da autorreferência é apenas um passo. Com todo esse "sistema", Gödel escreveu a fórmula:
+
+$$
+G = \forall x \neg \text{Dem}(x, \text{ng}(G))
+$$
+
+## Duas hipóteses
+
+### Primeira hipótese
+
+Se pudermos definir $G$ ("A fórmula $G$ não pode ser demonstrada no PM") como uma verdade, ficará claro que "A fórmula $G$ não pode ser demonstrada no PM" é uma verdade; isso entraria em contradição com o próprio $G$.
+
+### Segunda hipótese
+
+Se pudermos definir $\neg G$ como uma verdade, isso implicará em "A fórmula $G$ pode ser demonstrada no PM", o que também entra em contradição.
+
+## Segundo teorema da incompletude
+
+"Para algum sistema formal consistente $S$ dentro do qual uma certa quantidade de Aritmética elementar possa ser realizada, a consistência de $S$ não pode ser provada por meio de $S$."
+
+Imagine um sistema formal $S$ que tenta provar sua própria consistência. Caso $S$ fosse capaz de provar sua consistência, seria possível construir uma prova que contradissesse o Primeiro Teorema da Incompletude, mostrando que $S$ é ao mesmo tempo completo e consistente. No entanto, isso é impossível, pois $S$ não pode provar sua própria consistência sem se tornar inconsistente.
